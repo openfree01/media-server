@@ -341,6 +341,9 @@
     <ClCompile Include="..\librtsp\source\sdp\sdp-opus.c">
       <Filter>librtsp\sdp</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\sdk\source\port\ip-route.c">
+      <Filter>sdk</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\libflv\test\rtmp.onStatus.amf0">

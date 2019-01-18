@@ -184,6 +184,7 @@
     <ClCompile Include="..\..\sdk\source\digest\sha224-256.c" />
     <ClCompile Include="..\..\sdk\source\digest\sha384-512.c" />
     <ClCompile Include="..\..\sdk\source\ntp-time.c" />
+    <ClCompile Include="..\..\sdk\source\port\ip-route.c" />
     <ClCompile Include="..\..\sdk\source\thread-pool.c" />
     <ClCompile Include="..\..\sdk\source\time64.c" />
     <ClCompile Include="..\..\sdk\source\unicode.c" />
