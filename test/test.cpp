@@ -64,6 +64,18 @@ void rtp_payload_test();
 
 int main(int argc, char* argv[])
 {
+#if defined(OS_WINDOWS)
+	char sBuf[1024];
+	char *ptr;
+	if (GetModuleFileNameA(NULL, sBuf, sizeof(sBuf)))
+	{
+		ptr = strrchr(sBuf, '\\');
+		if (ptr)
+			*ptr = '\0';
+		SetCurrentDirectoryA(sBuf);
+	}
+#endif
+
 	amf0_test();
 	rtp_queue_test();
 	mpeg4_aac_test();
