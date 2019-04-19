@@ -54,7 +54,7 @@ void mov_writer_audio(const char* audio, int type, const char* mp4);
 void hls_segmenter_flv(const char* file);
 void hls_segmenter_fmp4_test(const char* file);
 void hls_server_test(const char* ip, int port, const char *file_dir);
-void dash_dynamic_test(const char* ip, int port);
+void dash_dynamic_test(const char* ip, int port, const char* file, int width, int height);
 void dash_static_test(const char* mp4, const char* name);
 
 void rtmp_play_test(const char* host, const char* app, const char* stream, const char* flv);
@@ -103,11 +103,18 @@ int main(int argc, char* argv[])
 	// http下载模式(VLC能力较强,走该模式也能下载)
 	//http_server_test(NULL, 90);
 	
-	std::string sfilePath = file_dir;
-	sfilePath = sfilePath + "\\" + "hls" + "\\"; 
-	hls_server_test(NULL, 8085, sfilePath.c_str());
+	// flv文件切片ts
+	//hls_segmenter_flv("720p.flv");
 
-	//dash_dynamic_test(NULL, 80);
+	// mp4转flv
+	//mov_2_flv_test("123.mp4");
+
+	//std::string sfilePath = file_dir;
+	//sfilePath = sfilePath + "\\" + "hls" + "\\";
+	//hls_server_test(NULL, 8085, sfilePath.c_str());
+
+	// 访问方式:http://10.193.234.173:8086/live/name.mdp
+	dash_dynamic_test(NULL, 8086, "720p.flv", 720, 500);
 	//dash_static_test("720p.mp4", "name");
 	
 
