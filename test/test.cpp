@@ -7,6 +7,8 @@
 #include <shlwapi.h>
 #pragma comment(lib,"shlwapi.lib")
 
+#include <string>
+
 #include <atlbase.h>
 #include <atlconv.h>
 // }
@@ -51,7 +53,7 @@ void mov_writer_audio(const char* audio, int type, const char* mp4);
 
 void hls_segmenter_flv(const char* file);
 void hls_segmenter_fmp4_test(const char* file);
-void hls_server_test(const char* ip, int port);
+void hls_server_test(const char* ip, int port, const char *file_dir);
 void dash_dynamic_test(const char* ip, int port);
 void dash_static_test(const char* mp4, const char* name);
 
@@ -96,7 +98,18 @@ int main(int argc, char* argv[])
 	// }
 
 	// rtsp vod test
-	rtsp_example(file_dir);
+	//rtsp_example(file_dir);
+
+	// http下载模式(VLC能力较强,走该模式也能下载)
+	//http_server_test(NULL, 90);
+	
+	std::string sfilePath = file_dir;
+	sfilePath = sfilePath + "\\" + "hls" + "\\"; 
+	hls_server_test(NULL, 8085, sfilePath.c_str());
+
+	//dash_dynamic_test(NULL, 80);
+	//dash_static_test("720p.mp4", "name");
+	
 
 	//amf0_test();
 	//rtp_queue_test();

@@ -24,6 +24,9 @@
 #include <string>
 
 #define CWD "d:\\video\\"
+// {add by chenqw
+static const char* s_workdir = "e:\\";
+// }
 
 extern "C" int http_list_dir(http_session_t* session, const char* path);
 
@@ -245,7 +248,7 @@ static int hls_server_onlive(void* /*http*/, http_session_t* session, const char
 static int hls_server_onvod(void* /*http*/, http_session_t* session, const char* /*method*/, const char* path)
 {
 	UTF8Decode utf8(path + 5 /* /vod/ */);
-	std::string fullpath = CWD;
+	std::string fullpath = s_workdir;
 	fullpath += utf8;
 	printf("hls_server_onvod: %s\n", fullpath.c_str());
 
@@ -272,8 +275,11 @@ static int hls_server_onvod(void* /*http*/, http_session_t* session, const char*
 	return http_server_send(session, 404, "", 0, NULL, NULL);
 }
 
-void hls_server_test(const char* ip, int port)
+void hls_server_test(const char* ip, int port, const char *file_dir)
 {
+	// {add by chenqw
+	s_workdir = file_dir;
+	// }
 	aio_worker_init(4);
 	http_server_t* http = http_server_create(ip, port);
 	http_server_set_handler(http, http_server_route, http);
