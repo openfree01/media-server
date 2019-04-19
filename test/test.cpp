@@ -3,6 +3,13 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <string.h>
+// {add by chenqw
+#include <shlwapi.h>
+#pragma comment(lib,"shlwapi.lib")
+
+#include <atlbase.h>
+#include <atlconv.h>
+// }
 
 extern "C" void amf0_test(void);
 extern "C" void rtp_queue_test(void);
@@ -21,7 +28,7 @@ extern "C" void http_header_content_type_test(void);
 extern "C" void http_header_authorization_test(void);
 extern "C" void http_header_www_authenticate_test(void);
 
-extern "C" void rtsp_example();
+extern "C" void rtsp_example(const char *file_dir);
 extern "C" void rtsp_client_test(const char* host, const char* file);
 extern "C" void http_server_test(const char* ip, int port);
 
@@ -64,6 +71,8 @@ void rtp_payload_test();
 
 int main(int argc, char* argv[])
 {
+	// {add by chenqw 
+	//  for Linux与Windows的区别,Windows需要显示设置exe所在路径为进程默认路径
 #if defined(OS_WINDOWS)
 	char sBuf[1024];
 	char *ptr;
@@ -74,26 +83,39 @@ int main(int argc, char* argv[])
 			*ptr = '\0';
 		SetCurrentDirectoryA(sBuf);
 	}
+
+	// 获取当前exe文件所在文件路径
+	WCHAR szExecutePath[MAX_PATH] = { 0 };
+	::GetModuleFileName(NULL, szExecutePath, MAX_PATH - 1);
+	//去除路径后面的"\"和文件名
+	::PathRemoveFileSpec(szExecutePath);
+
+	USES_CONVERSION;
+	char *file_dir = W2A(szExecutePath);
 #endif
+	// }
 
-	amf0_test();
-	rtp_queue_test();
-	mpeg4_aac_test();
-	mpeg4_avc_test();
-	mpeg4_hevc_test();
-	mp3_header_test();
-	sdp_a_fmtp_test();
-	sdp_a_rtpmap_test();
-	rtsp_header_range_test();
-	rtsp_header_rtp_info_test();
-	rtsp_header_transport_test();
-	http_header_host_test();
-	http_header_content_type_test();
-	http_header_authorization_test();
-	http_header_www_authenticate_test();
-	rtsp_client_auth_test();
+	// rtsp vod test
+	rtsp_example(file_dir);
 
-	socket_init();
+	//amf0_test();
+	//rtp_queue_test();
+	//mpeg4_aac_test();
+	//mpeg4_avc_test();
+	//mpeg4_hevc_test();
+	//mp3_header_test();
+	//sdp_a_fmtp_test();
+	//sdp_a_rtpmap_test();
+	//rtsp_header_range_test();
+	//rtsp_header_rtp_info_test();
+	//rtsp_header_transport_test();
+	//http_header_host_test();
+	//http_header_content_type_test();
+	//http_header_authorization_test();
+	//http_header_www_authenticate_test();
+	//rtsp_client_auth_test();
+
+	//socket_init();
 
 	//mpeg_ts_dec_test("fileSequence0.ts");
 	//mpeg_ts_test("hevc_aac.ts", "h265_aac.h265");
@@ -119,7 +141,7 @@ int main(int argc, char* argv[])
 	//dash_dynamic_test(NULL, 80);
 	//dash_static_test("720p.mp4", "name");
 	//hls_server_test(NULL, 80);
-	//http_server_test(NULL, 80);
+	//http_server_test(NULL, 90);
 
 	//rtsp_client_test("192.168.241.129", "test.rtp");
 	//rtsp_example();

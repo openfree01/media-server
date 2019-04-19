@@ -452,8 +452,12 @@ static void rtsp_onerror(void* /*param*/, rtsp_server_t* rtsp, int code)
 }
 
 #define N_AIO_THREAD 4
-extern "C" void rtsp_example()
+extern "C" void rtsp_example(const char *file_dir)
 {
+	// {add by chenqw
+	s_workdir = file_dir;
+	// }
+
 	aio_worker_init(N_AIO_THREAD);
 
 	struct aio_rtsp_handler_t handler;
@@ -478,7 +482,7 @@ extern "C" void rtsp_example()
 	// test only
     while(1)
     {
-		system_sleep(5);
+		system_sleep(1);
 
 		TSessions::iterator it;
 		AutoThreadLocker locker(s_locker);
